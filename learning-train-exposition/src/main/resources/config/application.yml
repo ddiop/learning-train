@@ -1,0 +1,74 @@
+# ===================================================================
+# Default Spring Boot configuration.
+#
+# This configuration can be overriden by using a specific Spring profile,
+# for example application-dev.yml if the "dev" profile is used
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+management:
+    context-path: /management
+    health:
+        mail:
+            enabled: false # By default no MailService is configured
+
+spring:
+    
+    profiles:
+        # The active Spring profile can be filled in by maven or setting -Dspring.profiles.active` option in `JAVA_OPTS`
+        active: '@spring.profiles.active@'
+    jackson:
+      serialization:
+        write-dates-as-timestamps: false
+        indent-output: true        
+        
+
+# ===================================================================
+# BDDF specific properties
+# ===================================================================        
+learning:
+    swagger:
+        title: Trains DDD
+        description: DDD documentation
+        version: '@project.version@'
+        termsOfServiceUrl:
+        contactName:
+        contactUrl:
+        contactEmail:
+        license:
+        licenseUrl:
+        
+######## EVENT PATH and XSD ##############
+context: 
+      path: com.bnp.schema.em.event
+schema: 
+      location: xsd/EventManagement.1.2.xsd
+template:
+        collect.header:
+                    id: AP12243
+
+
+
+############ Eureka services id #############
+customer:
+      serviceId: bddf-customer
+      api: /api/customers
+      api.legalNature: /legalNature/{listCustomerId}
+      api.particularities: /particularities/{listCustomerId}
+      
+nomenclature:
+      serviceId: bddf-nomenclature
+      api: /api/nomenclatures
+      api.insee: /inseecode
+      
+collect:
+      serviceId: bddf-collect
+      api: /api/collects/client
+  
+             
+ 

@@ -1,0 +1,119 @@
+# ===================================================================
+# Spring Boot configuration for the "prod" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    jmx:
+      default-domain: '@jmx-default-namespace@'
+    profiles:
+        active: dev
+        include: swagger
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+    data:
+        cassandra:
+            contactPoints: s00vl9967025,s00vl9967039,s00vl9967043,s00vl9967049
+            compression: LZ4
+            keyspaceName: cj_dossier
+            port: 1521
+            username: 
+            password: 
+            cluster-name: DC_OLTP_BDDF_PROD_1
+            ssl: true
+            consistency-level: LOCAL_QUORUM
+    cache:
+        hosts: s00vl9973128,s00vl9973135
+        port: 5701
+        portCount: 100
+###config of the SMTP server        
+    mail:
+          host: vip-parapop.fr.net.intra
+          port: 25
+          properties:
+                mail.smtp:
+                          connectiontimeout: 5000
+                          timeout: 5000
+                          writetimeout: 5000  
+    sleuth:
+            enabled: true
+            log:
+                slf4j:
+                    enabled: true
+logging:
+    config: classpath:logback-prod.xml
+    file: /applis/logs/12243-hpl00/wlc/sa-12243_hpl00_propertyloan-biz-1/sa-12243_hpl00_propertyloan-biz-1/logs/sm-12243_hpl00.log
+    pattern:
+        file: '%date{yyyy-MM-dd HH:mm:ss.SSSXXX} | %-5level | %X{HostName} | %X{IP} | %X{AppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-} | %X{JMSCorrelationID} | %X{JMSTimeHandledMessage} | %X{UserID} | %X{Marker} | %logger{36} - %msg%n'
+        console: '%date{yyyy-MM-dd HH:mm:ss.SSSXXX} | %-5level | %X{HostName} | %X{IP} | %X{AppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-} | %X{JMSCorrelationID} | %X{JMSTimeHandledMessage} | %X{UserID} | %X{Marker} | %logger{36} - %msg%n'
+              
+server:
+    port: 10081
+    dnsHostName: exp-srv-metier-s1.bddf.echonet
+         
+jms:
+  mq:
+     hosts: s00vl9973151(48701),s00vl9973160(48701)
+     queue-manager: FRHPL01P
+     channel: CLIHPL01.FRHPL01P.T1
+     receive-timeout: 2000
+     inbound-default-queue: CREIMO
+     outbound-default-queue: CREDIT.IMMOBILIER
+     outbound-virtuo-queue: VIRTUO    
+     queue-notification: queue:///CREIMO.NOTIF?targetClient=1
+      
+#
+# Eureka
+#
+ribbon:
+  IsSecured: true
+  eureka:
+    enabled: true    
+eureka:  
+  client:
+    serviceUrl:
+      # For multiple eureka instances use ',' separator : https://exp-srv-metier-s1-rhel66.staging.echonet:10448/eureka,https://exp-srv-metier-s2-rhel66.staging.echonet:10448/eureka
+      defaultZone: https://exp-srv-metier-s1.bddf.echonet:10448/eureka,https://exp-srv-metier-s2.bddf.echonet:10448/eureka
+  instance:
+    hostname: ${eureka.dnsHostName}
+    nonSecurePortEnabled: false
+    non-secure-port: ${server.port}
+    securePortEnabled: true
+    secure-port: 10444
+    instance-id: ${server.dnsHostName}:${spring.application.name}:${spring.application.instance_id:${eureka.instance.secure-port}}
+    health-check-url: https://${server.dnsHostName}:${eureka.instance.secure-port}${management.context-path}/health
+    status-page-url: https://${server.dnsHostName}:${eureka.instance.secure-port}${management.context-path}/info
+    home-page-url: https://${server.dnsHostName}:${eureka.instance.secure-port}
+
+#### Email collab    
+collaborator:
+      mail:
+        sender: buymyhome@bnpparibas.com
+        recipient: bnpparibascreditimmobillier@bnpparibas.com 
+###########OpeGoal#########################################
+numeratorUri: https://goalgateway.bddf.echonet/goal-json-gateway/defimmo_num.1.0/defimmo_numertr
+rchPrsneKpiUrl: https://goalgateway.bddf.echonet/goal-json-gateway/recup_prsne_kpi.1.0/rch_prsne_kpi
+calTarAssUrl: https://goalgateway.bddf.echonet/goal-json-gateway/cal_tar_ass.1.0/mzimta10
+defiImmoUri: https://goalgateway.bddf.echonet/goal-json-gateway/s_d_enrg_plr.1.0/o_d_enrg_plr
+rg.directive.url: https://interaction.bddf.echonet:11040/ZIM/defi-immo-directive-webapp/service/handle
+            
+########## MAESTRO #######################
+maestro:
+    path: /applis/12243-hpl00/transfer/in
+    target.path: /applis/12243-hpl00/transfer/out
+    file.name: ExportListPj
+    cron.date.launcher: 0 0 18 * * *
+    cron.date.launcher.delete: '0 0 12 * * ?'
+    daysbetween: 90
+collect:
+    cron.date.launcher: 0 0 0 1/1 * ?

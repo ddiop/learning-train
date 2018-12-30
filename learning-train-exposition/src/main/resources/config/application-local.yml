@@ -1,0 +1,65 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    profiles:
+        active: local
+        include: swagger
+    jmx:
+      default-domain: '@jmx-default-namespace@' 
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+    
+    autoconfigure:
+     exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+
+    data.mongodb:
+      host: 127.0.0.1 # hostname
+      port: 27017 # port
+      uri: mongodb://localhost:27017/trains #uri
+      database: trains #db
+      
+    data:
+        cassandra:
+            contactPoints: localhost
+            compression: LZ4
+            keyspaceName: bddfCassandraPlrApplication
+            port: 9042
+            cluster-name: Bddf cluster
+            ssl: false
+    cache:
+        hosts: localhost  
+        port: 5701
+        portCount: 100
+      
+    activemq:
+         broker-url: tcp://localhost:61616
+         user: admin
+         password: admin 
+                     
+    ###config of the SMTP server        
+    mail:
+          host: VIP-PARDEV-SMTP.dev.echonet
+          port: 25
+          properties.mail.smtp:
+                          connectiontimeout: 5000
+                          timeout: 5000
+                          writetimeout: 5000
+        
+    sleuth:
+            enabled: true
+            log:
+                slf4j:
+                    enabled: true   

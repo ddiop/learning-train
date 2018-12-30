@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	 <groupId>com.diop.ddd.learning</groupId>
+    <artifactId>learning-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.diop.ddd.apiTrain</groupId>
+	<artifactId>learning-train-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+
+
+	<modules>
+		<module>learning-train-domain</module>
+		<module>learning-train-application</module>
+		<module>learning-train-infrastructure</module>
+		<module>learning-train-exposition</module>
+
+	</modules>
+
+
+
+	<properties>
+		<learning-framework.version>0.0.1-SNAPSHOT</learning-framework.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>com.diop.ddd.apiTrain</groupId>
+				<artifactId>learning-train-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.diop.ddd.apiTrain</groupId>
+				<artifactId>learning-train-application</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.diop.ddd.apiTrain</groupId>
+				<artifactId>learning-train-infrastructure</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.diop.ddd.apiTrain</groupId>
+				<artifactId>learning-train-exposition</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- Include project versions <dependency> <groupId>com.bnpparibas.dsibddf.AP12243</groupId> 
+				<artifactId>bddf-plr-exposition</artifactId> <version>${project.version}</version> 
+				</dependency> <dependency> <groupId>com.bnpparibas.dsibddf.AP12243</groupId> 
+				<artifactId>bddf-plr-infrastructure</artifactId> <version>${project.version}</version> 
+				</dependency> <dependency> <groupId>com.bnpparibas.dsibddf.AP12243</groupId> 
+				<artifactId>bddf-plr-infrastructure</artifactId> <version>${project.version}</version> 
+				<classifier>tests</classifier> <scope>test</scope> </dependency> -->
+
+
+
+			<!-- Framework projects -->
+			<dependency>
+				<groupId>com.diop.ddd.learning</groupId>
+				<artifactId>learning-framework-core</artifactId>
+				<version>${learning-framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.diop.ddd.learning</groupId>
+				<artifactId>learning-framework-web</artifactId>
+				<version>${learning-framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.diop.ddd.learning</groupId>
+				<artifactId>learning-framework-mongodb</artifactId>
+				<version>${learning-framework.version}</version>
+			</dependency>
+			<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-oxm</artifactId> 
+				</dependency> <dependency> <groupId>javax.validation</groupId> <artifactId>validation-api</artifactId> 
+				</dependency> <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> 
+				</dependency> spring-boot-starter-activemq <dependency> <groupId>org.springframework.boot</groupId> 
+				<artifactId>spring-boot-starter-activemq</artifactId> </dependency> <dependency> 
+				<groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> 
+				<scope>test</scope> </dependency> <dependency> <groupId>org.springframework</groupId> 
+				<artifactId>spring-tx</artifactId> </dependency> -->
+		</dependencies>
+	</dependencyManagement>
+
+</project>

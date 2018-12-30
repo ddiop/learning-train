@@ -1,0 +1,7 @@
+spring:
+     ###application name
+    application:
+              name: train
+    
+server:
+    port: 8081

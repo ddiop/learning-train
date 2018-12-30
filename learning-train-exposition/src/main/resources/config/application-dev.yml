@@ -1,0 +1,46 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    jmx:
+      default-domain: '@jmx-default-namespace@'
+    profiles:
+        active: dev
+        include: swagger
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+            
+    autoconfigure:
+      exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+
+    data.mongodb:
+      host: 127.0.0.1 # hostname
+      port: 27017 # port
+      uri: mongodb://localhost:27017/trains #uri
+      database: trains #db
+    data:
+        cassandra:
+            contactPoints: s00vl9960748,s00vl9960697,s00vl9960727,s00vl9960698
+            compression: LZ4
+            keyspaceName: property_loan2
+            port: 9042
+            username: adm_expe
+            password: Azerty_01
+            cluster-name: Cluster_OLTP_BDDF_DEV_1
+            ssl: true
+            consistency-level: LOCAL_QUORUM
+
+server:
+    port: 8081

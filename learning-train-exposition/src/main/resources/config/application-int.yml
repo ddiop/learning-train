@@ -1,0 +1,119 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    jmx:
+      default-domain: '@jmx-default-namespace@'
+    profiles:
+        active: dev
+        include: swagger
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false
+    data:
+        cassandra:
+            contactPoints: s00vl9960748,s00vl9960697,s00vl9960727,s00vl9960698
+            compression: LZ4
+            keyspaceName: int_propertyloan
+            port: 9042
+            username: adm_expe
+            password: Azerty_01
+            cluster-name: Cluster_OLTP_BDDF_DEV_1
+            ssl: true
+            consistency-level: LOCAL_QUORUM
+    cache:
+        hosts: S00VL9966633
+        port: 5701
+        portCount: 100
+            
+###config of the SMTP server        
+    mail:
+          host: VIP-PARDEV-SMTP.dev.echonet
+          port: 25
+          properties:
+                mail.smtp:
+                          connectiontimeout: 5000
+                          timeout: 5000
+                          writetimeout: 5000
+    sleuth:
+            enabled: true
+            log:
+                slf4j:
+                    enabled: true
+logging:
+    config: classpath:logback-dev.xml
+    file: /applis/logs/12243-hpl00/wlc/sa-12243_hpl00_propertyloan-biz-1/sa-12243_hpl00_propertyloan-biz-1/logs/sm-12243_hpl00.log
+    pattern:
+        file: '%date{yyyy-MM-dd HH:mm:ss.SSSXXX} | %-5level | %X{HostName} | %X{IP} | %X{AppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-} | %X{JMSCorrelationID} | %X{JMSTimeHandledMessage} | %X{UserID} | %X{Marker} | %logger{36} - %msg%n'
+        console: '%date{yyyy-MM-dd HH:mm:ss.SSSXXX} | %-5level | %X{HostName} | %X{IP} | %X{AppName},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-} | %X{JMSCorrelationID} | %X{JMSTimeHandledMessage} | %X{UserID} | %X{Marker} | %logger{36} - %msg%n'
+          
+server:
+    port: 10081
+         
+jms:
+  mq:
+    hosts: frhpl01t(48601)
+    queue-manager: FRHPL01T
+    channel: CLIHPL01.FRHPL01T.T1
+    receive-timeout: 2000
+    inbound-default-queue: INT_CREIMO
+    outbound-default-queue: CREDIT.IMMOBILIER
+    outbound-virtuo-queue: VIRTUO
+    queue-notification: queue:///CREIMO.NOTIF?targetClient=1
+      
+#
+# Eureka
+#
+ribbon:
+  IsSecured: false
+  eureka:
+    enabled: true    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://S00VL9966633:10087/eureka
+  instance:
+    hostname: ${spring.cloud.client.hostname}
+    nonSecurePortEnabled: true
+    non-secure-port: ${server.port}
+    securePortEnabled: false
+    secure-port: 443
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${eureka.instance.non-secure-port}}
+    health-check-url: http://${spring.cloud.client.hostname}:${eureka.instance.non-secure-port}${management.context-path}/health
+    status-page-url: http://${spring.cloud.client.hostname}:${eureka.instance.non-secure-port}${management.context-path}/info
+    home-page-url: http://${spring.cloud.client.hostname}:${eureka.instance.non-secure-port}
+    
+#### Email collab    
+collaborator:
+      mail:
+        sender: buymyhome@dev.fr
+        recipient: buymyhome@dev.fr 
+########## MAESTRO #######################
+numeratorUri: http://s00vl9969462.fr.net.intra:9087/goal-json-gateway/defimmo_num.1.0/defimmo_numertr
+rchPrsneKpiUrl: http://s00vl9969462.fr.net.intra:9087/goal-json-gateway/recup_prsne_kpi.1.0/rch_prsne_kpi
+calTarAssUrl: http://s00vl9969462.fr.net.intra:9087/goal-json-gateway/cal_tar_ass.1.0/mzimta10
+defiImmoUri: http://s00vl9969462.fr.net.intra:9087/goal-json-gateway/s_d_enrg_plr.1.0/o_d_enrg_plr
+rg.directive.url: http://interaction.dev.echonet:80/ZIM/defi-immo-directive-webapp/service/handle
+
+            
+########## MAESTRO #######################
+maestro:
+    path: /applis/12243-hpl00/transfer/in/
+    target.path: /applis/12243-hpl00/transfer/in/out/
+    file.name: QHPLMAE0
+    cron.date.launcher: 0 0 18 * * *
+    cron.date.launcher.delete: '0 0 12 * * ?'
+    daysbetween: 90
+collect:
+    cron.date.launcher: 0 0 0 1/1 * ?
